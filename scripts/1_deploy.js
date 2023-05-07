@@ -13,13 +13,13 @@ async function main() {
   );
 
   // Deploy contracts
-  const sph = await Token.deploy("Sphinx token", "SPH", "1000000");
-  await sph.deployed();
-  console.log(`sph token Deployed to: ${sph.address}`);
+  const SPH = await Token.deploy("Sphinx token", "SPH", "1000000");
+  await SPH.deployed();
+  console.log(`SPH token deployed to: ${SPH.address}`);
 
   const mETH = await Token.deploy("mETH", "mETH", "1000000");
   await mETH.deployed();
-  console.log(`mETH Deployed to: ${mETH.address}`);
+  console.log(`mETH deployed to: ${mETH.address}`);
 
   const mDAI = await Token.deploy("mDAI", "mDAI", "1000000");
   await mDAI.deployed();

@@ -6,21 +6,31 @@ import {
   loadProvider,
   loadNetwork,
   loadAccount,
-  loadToken,
+  loadTokens,
+  loadExchange,
 } from "../store/interactions";
 
 function App() {
   const dispatch = useDispatch();
 
   const loadBlockchainData = async () => {
-    await loadAccount(dispatch);
-
     // Connect Ethers to blockchain
     const provider = loadProvider(dispatch);
+
+    // Fetch current network's chainId (hardhat: 31337)
     const chainId = await loadNetwork(provider, dispatch);
 
-    // SPH Token Smart Contract
-    await loadToken(provider, config[chainId].SPH.address, dispatch);
+    // Fetch current account & balance from Metamask
+    await loadAccount(provider, dispatch);
+
+    // SPH Token smart contract
+    const SPH = config[chainId].SPH;
+    const mETH = config[chainId].mETH;
+    await loadTokens(provider, [SPH.address, mETH.address], dispatch);
+
+    // Load Exchange smart contract
+    const exchange = config[chainId].exchange;
+    await loadExchange(provider, exchange.address, dispatch);
   };
 
   useEffect(() => {

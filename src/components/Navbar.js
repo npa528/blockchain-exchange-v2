@@ -53,8 +53,8 @@ const Navbar = () => {
       <div className="exchange__header--account flex">
         {balance ? (
           <p>
-            <small>My balance</small>
-            {balance.toFixed(4)}
+            <small>My Balance</small>
+            {Number(balance).toFixed(4)}
           </p>
         ) : (
           <p>

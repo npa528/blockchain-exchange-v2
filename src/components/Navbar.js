@@ -1,8 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
+import Blockies from "react-blockies";
+
 import logo from "../assets/logo.png";
 import eth from "../assets/eth.svg";
-import Blockies from "react-blockies";
+
 import { loadAccount } from "../store/interactions";
+
 import config from "../config.json";
 
 const Navbar = () => {
@@ -10,10 +13,10 @@ const Navbar = () => {
   const chainId = useSelector((state) => state.provider.chainId);
   const account = useSelector((state) => state.provider.account);
   const balance = useSelector((state) => state.provider.balance);
+
   const dispatch = useDispatch();
 
   const connectHandler = async () => {
-    // Load account
     await loadAccount(provider, dispatch);
   };
 
@@ -27,7 +30,7 @@ const Navbar = () => {
   return (
     <div className="exchange__header grid">
       <div className="exchange__header--brand flex">
-        <img src={logo} className="logo" alt="SPH logo"></img>
+        <img src={logo} className="logo" alt="SPH Logo"></img>
         <h1>SPH Token Exchange</h1>
       </div>
 
@@ -45,7 +48,7 @@ const Navbar = () => {
               Select Network
             </option>
             <option value="0x7A69">Localhost</option>
-            <option value="0x5">Goerli</option>
+            <option value="0x2a">Kovan</option>
           </select>
         )}
       </div>
@@ -58,10 +61,9 @@ const Navbar = () => {
           </p>
         ) : (
           <p>
-            <small>My balance</small>0 ETH
+            <small>My Balance</small>0 ETH
           </p>
         )}
-
         {account ? (
           <a
             href={
@@ -74,7 +76,7 @@ const Navbar = () => {
           >
             {account.slice(0, 5) + "..." + account.slice(38, 42)}
             <Blockies
-              account={account}
+              seed={account}
               size={10}
               scale={3}
               color="#2187D0"

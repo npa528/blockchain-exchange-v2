@@ -14,6 +14,7 @@ import {
 import Navbar from "./Navbar";
 import Markets from "./Markets";
 import Balance from "./Balance";
+import Order from "./Order";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ function App() {
     // Connect Ethers to blockchain
     const provider = loadProvider(dispatch);
 
-    // Fetch current network's chainId (hardhat: 31337)
+    // Fetch current network's chainId (e.g. hardhat: 31337, kovan: 42)
     const chainId = await loadNetwork(provider, dispatch);
 
     // Reload page when network changes
@@ -35,12 +36,12 @@ function App() {
       loadAccount(provider, dispatch);
     });
 
-    // SPH Token smart contract
+    // Load token smart contracts
     const SPH = config[chainId].SPH;
     const mETH = config[chainId].mETH;
     await loadTokens(provider, [SPH.address, mETH.address], dispatch);
 
-    // Load Exchange smart contract
+    // Load exchange smart contract
     const exchangeConfig = config[chainId].exchange;
     const exchange = await loadExchange(
       provider,
@@ -66,7 +67,7 @@ function App() {
 
           <Balance />
 
-          {/* Order */}
+          <Order />
         </section>
         <section className="exchange__section--right grid">
           {/* PriceChart */}

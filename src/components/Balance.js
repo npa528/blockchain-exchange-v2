@@ -1,7 +1,9 @@
 import { useEffect, useState, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
 import sphLogo from "../assets/sphLogo.svg";
 import eth from "../assets/eth.svg";
+
 import { loadBalances, transferTokens } from "../store/interactions";
 
 const Balance = () => {
@@ -125,7 +127,7 @@ const Balance = () => {
         </div>
       </div>
 
-      {/* Deposit/Withdraw Component 1 (DApp) */}
+      {/* Deposit/Withdraw Component 1 (SPH) */}
 
       <div className="exchange__transfers--form">
         <div className="flex-between">

@@ -34,13 +34,13 @@ const openOrders = (state) => {
 const decorateOrder = (order, tokens) => {
   let token0Amount, token1Amount;
 
-  // Note: DApp should be considered token0, mETH is considered token1
-  // Example: Giving mETH in exchange for DApp
+  // Note: SPH should be considered token0, mETH is considered token1
+  // Example: Giving mETH in exchange for SPH
   if (order.tokenGive === tokens[1].address) {
-    token0Amount = order.amountGive; // The amount of DApp we are giving
+    token0Amount = order.amountGive; // The amount of SPH we are giving
     token1Amount = order.amountGet; // The amount of mETH we want...
   } else {
-    token0Amount = order.amountGet; // The amount of DApp we want
+    token0Amount = order.amountGet; // The amount of SPH we want
     token1Amount = order.amountGive; // The amount of mETH we are giving...
   }
 
@@ -59,7 +59,8 @@ const decorateOrder = (order, tokens) => {
 };
 
 // ------------------------------------------------------------------------------
-// ALL FILLED BOOK
+// ALL FILLED ORDERS
+
 export const filledOrdersSelector = createSelector(
   filledOrders,
   tokens,
@@ -78,7 +79,7 @@ export const filledOrdersSelector = createSelector(
         o.tokenGive === tokens[0].address || o.tokenGive === tokens[1].address
     );
 
-    // Sort orders by date ascending for price comparison
+    // Sort orders by time ascending for price comparison
     orders = orders.sort((a, b) => a.timestamp - b.timestamp);
 
     // Decorate the orders
@@ -96,6 +97,7 @@ const decorateFilledOrders = (orders, tokens) => {
   let previousOrder = orders[0];
 
   return orders.map((order) => {
+    // decorate each individual order
     order = decorateOrder(order, tokens);
     order = decorateFilledOrder(order, previousOrder);
     previousOrder = order; // Update the previous order once it's decorated
@@ -116,8 +118,8 @@ const tokenPriceClass = (tokenPrice, orderId, previousOrder) => {
     return GREEN;
   }
 
-  // Show green price if order price is higher or equal than previous order
-  // Show red price if order price is lower than previous order
+  // Show green price if order price higher than previous order
+  // Show red price if order price lower than previous order
   if (previousOrder.tokenPrice <= tokenPrice) {
     return GREEN; // success
   } else {

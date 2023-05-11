@@ -1,5 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
+
 import config from "../config.json";
+
 import { loadTokens } from "../store/interactions";
 
 const Markets = () => {
@@ -7,8 +9,9 @@ const Markets = () => {
   const chainId = useSelector((state) => state.provider.chainId);
 
   const dispatch = useDispatch();
+
   const marketHandler = async (e) => {
-    await loadTokens(provider, e.target.value.split(","), dispatch);
+    loadTokens(provider, e.target.value.split(","), dispatch);
   };
 
   return (
@@ -24,7 +27,6 @@ const Markets = () => {
           >
             SPH / mETH
           </option>
-
           <option
             value={`${config[chainId].SPH.address},${config[chainId].mDAI.address}`}
           >
@@ -32,7 +34,9 @@ const Markets = () => {
           </option>
         </select>
       ) : (
-        <div>Not deployed to network</div>
+        <div>
+          <p>Not Deployed to Network</p>
+        </div>
       )}
 
       <hr />

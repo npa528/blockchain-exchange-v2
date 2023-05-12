@@ -3,7 +3,7 @@ require("dotenv").config();
 require("solidity-coverage");
 
 const GOERLI_RPC_URL = process.env.GOERLI_RPC_URL || "";
-const PRIVATE_KEY = process.env.PRIVATE_KEY || "";
+const PRIVATE_KEYS = process.env.PRIVATE_KEYS || "";
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
@@ -19,7 +19,7 @@ module.exports = {
     },
     goerli: {
       url: GOERLI_RPC_URL,
-      accounts: [PRIVATE_KEY],
+      accounts: PRIVATE_KEYS.split(","),
       chainId: 5,
       blockConfirmations: 6,
     },

@@ -29,7 +29,7 @@ function App() {
     // Connect Ethers to blockchain
     const provider = loadProvider(dispatch);
 
-    // Fetch current network's chainId (e.g. hardhat: 31337, kovan: 42)
+    // Fetch current network's chainId (e.g. hardhat: 31337, Goerli: 5)
     const chainId = await loadNetwork(provider, dispatch);
 
     // Reload page when network changes

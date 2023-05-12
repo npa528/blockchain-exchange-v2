@@ -76,6 +76,12 @@ const DEFAULT_EXCHANGE_STATE = {
     loaded: false,
     data: [],
   },
+  cancelledOrders: {
+    data: [],
+  },
+  filledOrders: {
+    data: [],
+  },
   events: [],
 };
 
@@ -152,6 +158,55 @@ export const exchange = (state = DEFAULT_EXCHANGE_STATE, action) => {
         ...state,
         transaction: {
           transactionType: "Cancel",
+          isPending: false,
+          isSuccessful: false,
+          isError: true,
+        },
+      };
+
+    // ------------------------------------------------------------------------------
+    // FILLING ORDERS
+    case "FILL_ORDER_REQUEST":
+      return {
+        ...state,
+        transaction: {
+          transactionType: "Fill Order",
+          isPending: true,
+          isSuccessful: false,
+        },
+      };
+
+    case "FILL_ORDER_SUCCESS":
+      // Prevent duplicate orders
+      index = state.filledOrders.data.findIndex(
+        (order) => order.id.toString() === action.order.id.toString()
+      );
+
+      if (index === -1) {
+        data = [...state.filledOrders.data, action.order];
+      } else {
+        data = state.filledOrders.data;
+      }
+
+      return {
+        ...state,
+        transaction: {
+          transactionType: "Fill Order",
+          isPending: false,
+          isSuccessful: true,
+        },
+        filledOrders: {
+          ...state.filledOrders,
+          data,
+        },
+        events: [action.event, ...state.events],
+      };
+
+    case "FILL_ORDER_FAIL":
+      return {
+        ...state,
+        transaction: {
+          transactionType: "Fill Order",
           isPending: false,
           isSuccessful: false,
           isError: true,
